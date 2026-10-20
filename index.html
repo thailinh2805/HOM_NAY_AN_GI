@@ -1,0 +1,283 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body><title>Ăn Gì Quanh Làng</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: dải tiêu đề + ô tìm kiếm lớn, thanh bộ lọc gọn, lưới thẻ quán; thanh giá là "thước 30k–200k" */
+:root{
+  --bg:#F2F5EE; --surface:#FFFFFF; --ink:#17221A; --muted:#5B685D; --line:#D9E0D3;
+  --accent:#E0A012; --accent-ink:#2E2100; --accent-soft:#FBEFC9; --good:#2D7448; --warn:#9A5B14;
+  --display:"Bricolage Grotesque","Be Vietnam Pro",system-ui,sans-serif;
+  --body:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r:12px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#111713; --surface:#19211B; --ink:#E7ECE4; --muted:#9BA89D; --line:#2B362E;
+  --accent:#F0B53A; --accent-ink:#241A00; --accent-soft:#3A2F12; --good:#6CC08B; --warn:#E3A55A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111713; --surface:#19211B; --ink:#E7ECE4; --muted:#9BA89D; --line:#2B362E;
+  --accent:#F0B53A; --accent-ink:#241A00; --accent-soft:#3A2F12; --good:#6CC08B; --warn:#E3A55A; color-scheme:dark}
+[hidden]{display:none!important}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--body);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{padding-block:28px 18px}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font:800 clamp(30px,6vw,48px)/1.05 var(--display);margin:6px 0 8px;text-wrap:balance;letter-spacing:-.01em}
+h1 em{font-style:normal;white-space:nowrap;background:linear-gradient(transparent 74%,var(--accent) 74%);padding:0 2px}
+.sub{color:var(--muted);margin:0;max-width:62ch}
+.searchbar{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.searchbar label.q{flex:1 1 200px;display:flex;align-items:center;gap:10px;background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r);padding:0 14px;min-width:0}
+.searchbar label.q:focus-within{border-color:var(--accent)}
+.searchbar svg{flex:none;color:var(--muted)}
+#q{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font:500 16px var(--body);padding:14px 0;outline:none}
+button,select,input{font:inherit;color:inherit}
+.btn{border:0;border-radius:var(--r);padding:0 18px;min-height:50px;font-weight:700;cursor:pointer;background:var(--accent);color:var(--accent-ink)}
+.btn:hover{filter:brightness(1.05)}
+.btn:focus-visible,.chip:focus-visible,.seg button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{outline:2.5px solid var(--accent);outline-offset:2px}
+.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:16px}
+.f{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.f > span{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;gap:8px}
+.f > span b{color:var(--ink);letter-spacing:0;text-transform:none;font-variant-numeric:tabular-nums}
+.seg{display:flex;flex-wrap:wrap;gap:4px}
+.seg button{flex:1 1 auto;border:1px solid var(--line);background:transparent;border-radius:8px;padding:6px 8px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.dual{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;align-items:center;font-size:12px;color:var(--muted)}
+select{width:100%;border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:8px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-size:14px;font-weight:600;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent)}
+.chip small{color:var(--muted);font-weight:500;margin-left:4px}
+.status{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:22px 0 12px}
+.status p{margin:0;font-weight:600}
+.status .reset{background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:14px;padding:4px}
+.pick{border:2px solid var(--accent);background:var(--accent-soft);border-radius:16px;padding:16px;margin-bottom:18px}
+.pick h2{font:800 14px var(--body);letter-spacing:.06em;text-transform:uppercase;margin:0 0 10px;display:flex;justify-content:space-between;gap:8px}
+.pick h2 button{background:none;border:0;cursor:pointer;color:var(--muted);font:600 13px var(--body);text-transform:none;letter-spacing:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px;padding-bottom:40px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.pick .card{border-color:transparent}
+.top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:13px}
+.cat{font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-size:11.5px}
+.rate{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.rate i{font-style:normal;color:var(--accent)}
+.rate small{color:var(--muted);font-weight:500}
+.card h3{font:700 20px/1.2 var(--display);margin:0;text-wrap:balance}
+.meta{color:var(--muted);font-size:13.5px;margin:0}
+.price{display:flex;align-items:center;gap:10px}
+.price b{font-size:17px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.price b small{font-weight:500;color:var(--muted);font-size:13px}
+.ruler{flex:1;height:6px;border-radius:3px;background:var(--line);position:relative;min-width:60px}
+.ruler span{position:absolute;top:0;bottom:0;border-radius:3px;background:var(--accent)}
+.dist{display:inline-flex;align-self:flex-start;gap:6px;align-items:center;font-size:13px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--bg);font-variant-numeric:tabular-nums}
+.dist.near{color:var(--good)}
+.hl{margin:0;font-size:14px}
+.note{margin:0;font-size:13px;color:var(--warn)}
+.foot{margin-top:auto;padding-top:10px;border-top:1px dashed var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.foot .ph{user-select:all;color:var(--ink);font-variant-numeric:tabular-nums}
+.foot a{color:var(--ink);font-weight:700;text-decoration:none;border-bottom:2px solid var(--accent)}
+.empty{grid-column:1/-1;text-align:center;padding:40px 16px;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:14px}
+footer{color:var(--muted);font-size:12.5px;padding-block:0 32px}
+@media (max-width:620px){.filters{grid-template-columns:1fr 1fr;gap:10px}.f{padding:10px 12px}.filters>.f:first-child,.filters>.f:last-child{grid-column:1/-1}.filters>.f:last-child{flex-direction:row}.btn{padding:0 14px}}
+#geoMsg{font-size:12px;color:var(--warn);margin:0}
+@media (prefers-reduced-motion:no-preference){.pick{animation:pop .25s ease-out}@keyframes pop{from{transform:scale(.98)}to{transform:none}}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Làng Đại học · Đông Hòa, Dĩ An</div>
+    <h1>Hôm nay <em>ăn gì</em> quanh làng?</h1>
+    <p class="sub">Quán được đánh giá cao trong bán kính 3 km quanh Bcons Plaza, KTX khu A và KTX khu B. Giá từ 30k đến 200k mỗi người.</p>
+    <div class="searchbar" role="search">
+      <label class="q" for="q">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Tìm món hoặc tên quán: lẩu bò, sushi, phở, ốc…" autocomplete="off" aria-label="Tìm món hoặc tên quán">
+      </label>
+      <button class="btn" id="randomBtn" type="button">🎲 Chọn giúp tôi</button>
+    </div>
+
+    <div class="filters">
+      <div class="f">
+        <span>Gần khu nào</span>
+        <div class="seg" id="near" role="group" aria-label="Gần khu nào">
+          <button type="button" data-v="all" aria-pressed="true">Cả 3 khu</button>
+          <button type="button" data-v="bcons" aria-pressed="false">Bcons</button>
+          <button type="button" data-v="ktxa" aria-pressed="false">KTX A</button>
+          <button type="button" data-v="ktxb" aria-pressed="false">KTX B</button>
+          <button type="button" data-v="me" aria-pressed="false" id="meBtn" hidden>📍 Tôi</button>
+        </div>
+        <p id="geoMsg" hidden></p>
+      </div>
+      <label class="f" for="radius">
+        <span>Bán kính <b id="radiusOut">3 km</b></span>
+        <input id="radius" type="range" min="0.5" max="3" step="0.5" value="3">
+      </label>
+      <div class="f">
+        <span>Giá mỗi người <b id="priceOut">30k – 200k</b></span>
+        <div class="dual">
+          <label for="pmin">Từ</label><input id="pmin" type="range" min="30" max="200" step="10" value="30">
+          <label for="pmax">Đến</label><input id="pmax" type="range" min="30" max="200" step="10" value="200">
+        </div>
+      </div>
+      <div class="f">
+        <span>Đánh giá & sắp xếp</span>
+        <select id="rating" aria-label="Đánh giá tối thiểu">
+          <option value="0">Mọi mức đánh giá</option>
+          <option value="4.3">Từ 4.3 ★</option>
+          <option value="4.5">Từ 4.5 ★</option>
+          <option value="4.8">Từ 4.8 ★</option>
+        </select>
+        <select id="sort" aria-label="Sắp xếp">
+          <option value="goi-y">Đề xuất (ngon + gần)</option>
+          <option value="gan-nhat">Gần nhất</option>
+          <option value="re-nhat">Rẻ nhất</option>
+          <option value="rating">Đánh giá cao nhất</option>
+        </select>
+      </div>
+    </div>
+    <div class="chips" id="cats" role="group" aria-label="Loại món"></div>
+  </header>
+
+  <main>
+    <div class="status">
+      <p id="count" aria-live="polite">Đang tải…</p>
+      <button class="reset" id="reset" type="button">Xóa bộ lọc</button>
+    </div>
+    <section class="pick" id="pick" hidden aria-live="polite">
+      <h2><span>Gợi ý cho bạn</span><button type="button" id="closePick">Đóng ✕</button></h2>
+      <div id="pickCard"></div>
+    </section>
+    <div class="grid" id="grid"></div>
+  </main>
+
+  <footer id="foot"></footer>
+</div>
+
+<script>
+const DATA = {"updated": "2026-10-21", "source": "Google Maps (rating, số đánh giá); giá/người là ước tính", "landmarks": [{"id": "bcons", "name": "Bcons Plaza", "lat": 10.8932713, "lng": 106.7920929}, {"id": "ktxa", "name": "KTX khu A", "lat": 10.8782463, "lng": 106.8062905}, {"id": "ktxb", "name": "KTX khu B", "lat": 10.8822113, "lng": 106.7825013}], "places": [{"name": "Hankki Deli Bcons Dĩ An", "type": "Hàn Quốc (cơm, mì, tokbokki)", "category": "Hàn · Nhật · Thái · Âu", "address": "38 Thống Nhất (Bcons City Mall), Đông Hòa", "lat": 10.8927369, "lng": 106.7936794, "rating": 4.8, "reviews": 1054, "price_min": 60, "price_max": 120, "hours": "10:00–21:00", "phone": null, "highlight": "Nhiều đánh giá nhất khu Bcons; lên món nhanh", "note": "Chuỗi, đông giờ trưa", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJ5xasWgDZdDERVo06EDo_Cz4"}, {"name": "Dookki Bcons Dĩ An", "type": "Buffet tokbokki Hàn Quốc", "category": "Hàn · Nhật · Thái · Âu", "address": "38 Thống Nhất (Bcons City Mall), Đông Hòa", "lat": 10.8927118, "lng": 106.7937169, "rating": 4.8, "reviews": 483, "price_min": 150, "price_max": 200, "hours": "10:30–22:00", "phone": "0986 568 269", "highlight": "Buffet lẩu tokbokki tự chọn, hợp nhóm bạn", "note": "Giá buffet + nước có thể chạm mức 200k", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJO0wpWgDZdDERxCKhkPc-Wa0"}, {"name": "MEE THAI – Mê vị chuẩn Thái", "type": "Món Thái", "category": "Hàn · Nhật · Thái · Âu", "address": "Tầng 3A Bcons City Mall, 38 Thống Nhất", "lat": 10.8927185, "lng": 106.7936758, "rating": 4.8, "reviews": 663, "price_min": 80, "price_max": 150, "hours": "06:00–22:00", "phone": "0943 020 606", "highlight": "Món Thái chuẩn vị, nhân viên thân thiện", "note": null, "maps": "https://www.google.com/maps/place/?q=place_id:ChIJrSwWdWfZdDER_tgkMPNKe6I"}, {"name": "Pizza Hut Big C (GO!) Dĩ An", "type": "Pizza – món Âu", "category": "Hàn · Nhật · Thái · Âu", "address": "QL1K, Đông Hòa (Big C Dĩ An)", "lat": 10.8894864, "lng": 106.7762256, "rating": 5.0, "reviews": 1782, "price_min": 100, "price_max": 200, "hours": "10:00–21:30", "phone": "1900 1822", "highlight": "Phục vụ tốt, nhiều combo khuyến mãi", "note": "Chuỗi; đi nhóm chia combo sẽ rẻ hơn", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJI-sQMj_ZdDEROCaNkq4qhNw"}, {"name": "SUPER BÒ Dĩ An", "type": "Món bò (nướng/lẩu)", "category": "Lẩu & nướng", "address": "23 đường GS1, Đông Hòa", "lat": 10.8894787, "lng": 106.7745221, "rating": 4.8, "reviews": 336, "price_min": 100, "price_max": 200, "hours": "17:00–22:00", "phone": "0888 426 282", "highlight": "Chuyên bò, điểm rất cao", "note": "Chỉ mở buổi tối", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJ2US8mRrZdDERmVzsHVjiyOk"}, {"name": "AKIKO Sushi Dĩ An", "type": "Nhật Bản (sushi, sashimi)", "category": "Hàn · Nhật · Thái · Âu", "address": "246 đường GS1, Dĩ An", "lat": 10.8955646, "lng": 106.767637, "rating": 4.9, "reviews": 701, "price_min": 100, "price_max": 200, "hours": "10:00–14:00, 16:30–22:00", "phone": "0366 640 302", "highlight": "Sushi điểm 4.9 với ~700 đánh giá", "note": "Nghỉ giữa ca chiều; gọi sashimi dễ vượt 200k", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJoYsvlIDZdDERgESt_ZbtMaE"}, {"name": "Nhà hàng lẩu Chu Suki Dĩ An", "type": "Lẩu Thái/suki", "category": "Hàn · Nhật · Thái · Âu", "address": "57-59 đường GS1, Đông Hòa", "lat": 10.8904357, "lng": 106.773498, "rating": 4.4, "reviews": 40, "price_min": 100, "price_max": 180, "hours": "—", "phone": null, "highlight": "Hay có khuyến mãi, món ngon", "note": "Phục vụ bị chê chậm, ít tư vấn", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJk-8SPQDZdDERe61qSs9B7PI"}, {"name": "Phố Ốc 179", "type": "Ốc – hải sản", "category": "Ốc & hải sản", "address": "188 đường GS1, Đông Hòa", "lat": 10.8952937, "lng": 106.7691175, "rating": 4.3, "reviews": 102, "price_min": 100, "price_max": 200, "hours": "Mở 24h", "phone": "0914 655 983", "highlight": "Hải sản tươi, có phòng lạnh 4–8 người", "note": null, "maps": "https://www.google.com/maps/place/?q=place_id:ChIJy2c-XADZdDERFsI5VMDogGQ"}, {"name": "Cái Tiệm Cơm Nhà 61", "type": "Cơm gia đình", "category": "Món Việt & cơm", "address": "2-3 GS18, Đông Hòa", "lat": 10.8935062, "lng": 106.7698428, "rating": 4.3, "reviews": 367, "price_min": 70, "price_max": 120, "hours": "09:30–21:30", "phone": "0775 616 161", "highlight": "Cơm nhà nấu tại chỗ, hợp ăn gia đình", "note": "Review trái chiều về thái độ phục vụ", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJHzy-TwDZdDERmPABqVPYUs4"}, {"name": "Bún đậu mắm tôm Mỹ Huệ", "type": "Bún đậu mắm tôm", "category": "Món Việt & cơm", "address": "234 đường GS1, Dĩ An", "lat": 10.8954531, "lng": 106.7680432, "rating": 4.1, "reviews": 105, "price_min": 50, "price_max": 80, "hours": "—", "phone": "0971 486 008", "highlight": "Phần ăn đầy đặn, trà đá miễn phí", "note": "Đông khách, nhân viên hơi hối", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJ_RJmBj_ZdDERDrWGQgdi9IM"}, {"name": "Ly Ngư Seafood", "type": "Hải sản", "category": "Ốc & hải sản", "address": "Đường GS6, Đông Hòa", "lat": 10.8910111, "lng": 106.7741312, "rating": 4.0, "reviews": 237, "price_min": 120, "price_max": 200, "hours": "—", "phone": "0909 185 689", "highlight": "Hải sản tươi", "note": "Quán hơi nóng", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJG5LiFjHZdDERvBC6DOlCZI0"}, {"name": "Quán vịt Tư Mồi", "type": "Vịt (quay, chao)", "category": "Món Việt & cơm", "address": "1/14 KP Tây B, Đông Hòa", "lat": 10.8940442, "lng": 106.7780626, "rating": 4.1, "reviews": 246, "price_min": 60, "price_max": 120, "hours": "Mở 24h", "phone": "0274 3750 446", "highlight": "Vịt quay chao được khen nhiều", "note": null, "maps": "https://www.google.com/maps/place/?q=place_id:ChIJGwifSfPYdDERZClaQYoDIMo"}, {"name": "Lẩu Cá Kèo Dĩ An", "type": "Lẩu cá kèo", "category": "Lẩu & nướng", "address": "146A Trần Hưng Đạo, Đông Hòa", "lat": 10.8977131, "lng": 106.7833054, "rating": 4.1, "reviews": 42, "price_min": 100, "price_max": 150, "hours": "15:00–00:00", "phone": "0936 711 121", "highlight": "Lẩu cá kèo nước ngon, lên món nhanh", "note": "Có phụ thu 5%; lẩu ~250k/2 người", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJaazFbnrZdDERmz5eSh0d9jk"}, {"name": "Quán Ốc Cây Keo", "type": "Ốc – hải sản", "category": "Ốc & hải sản", "address": "43 Trần Quang Khải, Đông Hòa", "lat": 10.9044047, "lng": 106.7758996, "rating": 4.0, "reviews": 81, "price_min": 100, "price_max": 200, "hours": "14:00–23:00", "phone": "0942 722 386", "highlight": "Gỏi sứa là món tủ, ốc & hàu tươi", "note": "Hơi đắt, chờ order lâu", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJF_I66wLZdDERzFD9QZiJafU"}, {"name": "Quán Ốc Đường Mới", "type": "Ốc – hải sản", "category": "Ốc & hải sản", "address": "15 Nguyễn Trung Trực, Dĩ An", "lat": 10.9052117, "lng": 106.7731681, "rating": 4.0, "reviews": 353, "price_min": 80, "price_max": 180, "hours": "11:00–23:59", "phone": "0945 145 150", "highlight": "Hải sản giá tốt", "note": null, "maps": "https://www.google.com/maps/place/?q=place_id:ChIJE34xKvjYdDERNYzDkRYA4ks"}, {"name": "Lẩu Bò PA (Hẻm 97)", "type": "Lẩu bò", "category": "Lẩu & nướng", "address": "97/13A Trần Quốc Toản, Dĩ An", "lat": 10.9048835, "lng": 106.7693297, "rating": 4.3, "reviews": 229, "price_min": 80, "price_max": 150, "hours": "10:30–21:00", "phone": "0853 387 982", "highlight": "Giá tốt, ngon, đáng quay lại", "note": "Nằm trong hẻm", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJcb2IAuHZdDERSpNYn_4xf6g"}, {"name": "Lẩu Nướng Cần Giờ", "type": "Lẩu – nướng", "category": "Lẩu & nướng", "address": "155 Tô Vĩnh Diện, Đông Hòa", "lat": 10.8828666, "lng": 106.7851547, "rating": 4.5, "reviews": 622, "price_min": 100, "price_max": 150, "hours": "15:00–00:00", "phone": "0907 006 239", "highlight": "Quán lẩu nướng nổi tiếng làng ĐH khu B", "note": "Chỉ mở chiều tối", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJHcfEJwXZdDERYIYtEHC_8Qk"}, {"name": "Buffet Phố Nướng 139k", "type": "Buffet lẩu nướng", "category": "Lẩu & nướng", "address": "40 Bảo Vệ Tuyến Ống Nước Thô, Đông Hòa", "lat": 10.8841243, "lng": 106.7857755, "rating": 4.5, "reviews": 471, "price_min": 140, "price_max": 180, "hours": "16:30–23:00", "phone": "0978 029 519", "highlight": "Buffet nướng 139k, ngay sát KTX B", "note": "Giá vé chưa gồm nước", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJU7-LfgDZdDER1hpQTcibmAE"}, {"name": "Lẩu Chay Tiệm Nhà Mèo", "type": "Lẩu chay", "category": "Chay", "address": "200 Tô Vĩnh Diện, Đông Hòa", "lat": 10.8825801, "lng": 106.7856081, "rating": 5.0, "reviews": 415, "price_min": 50, "price_max": 80, "hours": "10:00–22:00", "phone": "0347 098 537", "highlight": "Điểm 5.0 với hơn 400 đánh giá", "note": null, "maps": "https://www.google.com/maps/place/?q=place_id:ChIJd2usmqrZdDERJEELl_gtV6U"}, {"name": "Lẩu Chay Hữu Duyên", "type": "Lẩu chay (buffet rau)", "category": "Chay", "address": "767/6 Tô Vĩnh Diện, Đông Hòa", "lat": 10.8848594, "lng": 106.7839086, "rating": 4.4, "reviews": 717, "price_min": 60, "price_max": 90, "hours": "07:00–21:00", "phone": "0909 049 334", "highlight": "Rau tươi, chao ngon, ~70k/người", "note": "Hay có khuyến mãi nên dễ đông", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJ5ydNuLPZdDERSRagwwlSnc4"}, {"name": "Lẩu Bò Hà Lan", "type": "Lẩu bò", "category": "Lẩu & nướng", "address": "151 Tô Vĩnh Diện, Đông Hòa", "lat": 10.8830222, "lng": 106.7850927, "rating": 4.1, "reviews": 93, "price_min": 75, "price_max": 100, "hours": "09:00–23:00", "phone": "0867 982 305", "highlight": "Nồi lẩu đầy thịt, 150–200k/2 người", "note": "Nước chấm bị chê", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJfwIDfg7ZdDERF60V7yqmtBk"}, {"name": "Lẩu Bò Triều Châu Làng Đại Học", "type": "Lẩu bò Triều Châu", "category": "Lẩu & nướng", "address": "Nguyễn Du, Khu đô thị ĐHQG (Nhà công vụ 1)", "lat": 10.8806053, "lng": 106.7959906, "rating": 4.5, "reviews": 65, "price_min": 90, "price_max": 120, "hours": "16:00–23:00", "phone": "0941 281 978", "highlight": "Lẩu bò kiểu Triều Châu, combo 169k/2 người", "note": "Có review chê ít thịt, nước lẩu tính riêng", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJwyzjUADZdDERBaLDdtXa_y8"}, {"name": "Phố Ẩm Thực Làng Vũ Đại", "type": "Khu ẩm thực (ốc, lẩu gà, bún chả…)", "category": "Món Việt & cơm", "address": "D1800/20B Tô Vĩnh Diện, Đông Hòa", "lat": 10.8833799, "lng": 106.7854139, "rating": 4.6, "reviews": 17, "price_min": 50, "price_max": 120, "hours": "07:00–23:00", "phone": "0328 949 559", "highlight": "Nhiều quầy để chọn, lẩu gà lá é ngon", "note": "Mới, ít đánh giá", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJXeL5yI_ZdDEReRJbl0dg_EI"}, {"name": "Quán Cây Tùng", "type": "Lẩu cá chép, cơm", "category": "Lẩu & nướng", "address": "115/19 Đường số 1, KP Tân Lập, Đông Hòa", "lat": 10.8811323, "lng": 106.8125718, "rating": 4.3, "reviews": 303, "price_min": 70, "price_max": 150, "hours": "10:00–21:30", "phone": "0906 978 179", "highlight": "Lẩu cá chép được khuyên gọi", "note": "Hơi khó tìm, đông giờ trưa", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJkXWpB7LYdDER4qEQtSi6o08"}, {"name": "Quán ăn gia đình Nàng Thơ", "type": "Cơm gia đình, đặc sản", "category": "Món Việt & cơm", "address": "113 Tân Lập, Đông Hòa", "lat": 10.8802285, "lng": 106.8128142, "rating": 4.7, "reviews": 30, "price_min": 60, "price_max": 150, "hours": "10:00–23:00", "phone": "0915 055 918", "highlight": "Combo cơm niêu 59k, canh chua ngon, có phòng lạnh", "note": "Ít đánh giá", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJ2whC1gXZdDERHkJOMpBFBao"}, {"name": "Quán Nhậu Đêm Góc Phố", "type": "Quán nhậu – món nhậu", "category": "Món Việt & cơm", "address": "71 Tân Lập, Đông Hòa", "lat": 10.8780184, "lng": 106.8100641, "rating": 4.8, "reviews": 33, "price_min": 70, "price_max": 150, "hours": "15:00–00:00", "phone": "0972 088 075", "highlight": "Đồ tươi, giá hợp lý, phục vụ nhiệt tình", "note": "Ít đánh giá", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJe7RtTQDZdDERPcanDU-s45U"}, {"name": "Quê Ta 3", "type": "Món Việt – nhậu", "category": "Món Việt & cơm", "address": "Đông Hòa (gần KTX khu A)", "lat": 10.8800129, "lng": 106.8104164, "rating": 4.2, "reviews": 103, "price_min": 70, "price_max": 150, "hours": "07:00–22:00", "phone": "0911 558 117", "highlight": "Rộng, thoáng, có phòng karaoke miễn phí khi đặt tiệc", "note": "Quán đã dời ~200m so với vị trí cũ", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJp07G-hfZdDERDn78Uwlsz7c"}, {"name": "Ẩm thực Mẹ Nấu", "type": "Món Việt truyền thống", "category": "Món Việt & cơm", "address": "222 Vành Đai ĐHQG, Đông Hòa", "lat": 10.8829599, "lng": 106.8123927, "rating": 4.4, "reviews": 135, "price_min": 80, "price_max": 150, "hours": "Mở 24h", "phone": "0936 249 037", "highlight": "Không gian rộng, chỗ đậu ô tô", "note": null, "maps": "https://www.google.com/maps/place/?q=place_id:ChIJOR2EZqvZdDERvxJ1oZZ3p9Y"}, {"name": "Bình Vịt – Vịt cỏ Vân Đình", "type": "Vịt (nướng, om, cháo)", "category": "Món Việt & cơm", "address": "Tân Lập, Đông Hòa", "lat": 10.8778008, "lng": 106.8108084, "rating": 4.0, "reviews": 29, "price_min": 70, "price_max": 120, "hours": "—", "phone": "0983 693 594", "highlight": "Vịt nướng chắc thịt, nửa con 110k", "note": "Ngồi ngoài hơi nóng, phục vụ chậm", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJA9efBgDZdDERCNG1TO5r8kw"}, {"name": "Quán Ốc Lẩu Nướng Miền Trung", "type": "Ốc – lẩu – nướng", "category": "Ốc & hải sản", "address": "Nhà Văn hóa Sinh viên, Đông Hòa", "lat": 10.8757499, "lng": 106.8005815, "rating": 4.2, "reviews": 54, "price_min": 60, "price_max": 100, "hours": "16:00–23:30", "phone": "0981 136 247", "highlight": "Giá sinh viên, lẩu lớn 120k/2 người", "note": "Hơi nóng & khói, cơ sở cũ", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJfwr1A7LZdDER5ERfvYgfnYI"}, {"name": "Phở An", "type": "Phở, bún bò", "category": "Món Việt & cơm", "address": "58/15 Tô Vĩnh Diện, Đông Hòa", "lat": 10.8831112, "lng": 106.7853197, "rating": 4.9, "reviews": 18, "price_min": 35, "price_max": 60, "hours": "06:00–12:00, 16:30–21:00", "phone": null, "highlight": "Nước dùng ngọt thanh, sa tế nhà làm, phần ăn đầy đặn", "note": "Ít đánh giá", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJw3nxAgDZdDERwf0renvw6nE"}, {"name": "Cơm Minh Mẫn", "type": "Cơm phần", "category": "Món Việt & cơm", "address": "Tô Vĩnh Diện (gần KTX B), Đông Hòa", "lat": 10.8827761, "lng": 106.7857525, "rating": 4.9, "reviews": 11, "price_min": 30, "price_max": 50, "hours": "—", "phone": null, "highlight": "Cơm nhiều topping, giá giữ ổn định nhiều năm", "note": "Nằm trong hẻm, ít đánh giá", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJi9TxAgDZdDERFtRS4rWvLN4"}, {"name": "IU Canteen (ĐH Quốc tế)", "type": "Căn tin nhiều quầy", "category": "Món Việt & cơm", "address": "Trường ĐH Quốc tế, Đông Hòa", "lat": 10.8775759, "lng": 106.8006439, "rating": 4.6, "reviews": 481, "price_min": 30, "price_max": 50, "hours": "07:00–14:00 (CN nghỉ)", "phone": null, "highlight": "5 quầy ăn, có máy lạnh, thực đơn đổi mỗi ngày", "note": "Chỉ mở buổi trưa", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJYZwXc6TYdDERR29dEcBKxco"}, {"name": "Quán ăn Miền Tây", "type": "Cơm tấm Long Xuyên", "category": "Món Việt & cơm", "address": "Đường Quảng Trường Sáng Tạo, Đông Hòa", "lat": 10.8749178, "lng": 106.7994231, "rating": 4.3, "reviews": 23, "price_min": 30, "price_max": 45, "hours": "10:00–21:00", "phone": "0939 449 377", "highlight": "Cơm tấm Long Xuyên, nước uống miễn phí", "note": "Ít đánh giá", "maps": "https://www.google.com/maps/place/?q=place_id:ChIJ09SOUS7ZdDER0kJi20oa-Y4"}]};
+const API_MODE = /*__API_MODE__*/false;
+const GEO = true; // bật nút 📍 Tôi khi trang chạy trên https (GitHub Pages, Render…)
+const FLOOR = 30, CEIL = 200;
+const CATS = ["Món Việt & cơm","Lẩu & nướng","Ốc & hải sản","Hàn · Nhật · Thái · Âu","Chay"];
+const $ = s => document.querySelector(s);
+const defaults = {q:"", near:"all", radius:3, pmin:30, pmax:200, rating:0, sort:"goi-y", cat:""};
+let state = {...defaults};
+let me = null;
+let lastResults = [];
+
+try { const saved = JSON.parse(localStorage.getItem("agql-filters") || "null"); if (saved) state = {...defaults, ...saved, q:"", near: saved.near === "me" ? "all" : saved.near}; } catch (e) {}
+const save = () => { try { localStorage.setItem("agql-filters", JSON.stringify(state)); } catch (e) {} };
+
+const fold = s => (s || "").replace(/đ/g,"d").replace(/Đ/g,"D").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
+const hav = (a,b,c,d) => { const R=6371, r=x=>x*Math.PI/180; const dp=r(c-a), dl=r(d-b);
+  const h=Math.sin(dp/2)**2+Math.cos(r(a))*Math.cos(r(c))*Math.sin(dl/2)**2; return 2*R*Math.asin(Math.sqrt(h)); };
+const LM = Object.fromEntries(DATA.landmarks.map(l => [l.id, l]));
+
+function distanceInfo(p, near){
+  if (near === "me" && me) return [hav(me.lat, me.lng, p.lat, p.lng), "vị trí của bạn"];
+  if (LM[near]) return [hav(LM[near].lat, LM[near].lng, p.lat, p.lng), LM[near].name];
+  return DATA.landmarks.map(l => [hav(l.lat, l.lng, p.lat, p.lng), l.name]).sort((a,b) => a[0]-b[0])[0];
+}
+
+// Lọc tại trình duyệt — dùng khi trang chạy không có máy chủ Python (bản đăng online)
+function localSearch(s){
+  const words = fold(s.q.trim()).split(/\s+/).filter(Boolean);
+  const out = [];
+  for (const p of DATA.places){
+    if (words.length){ const hay = fold([p.name,p.type,p.category,p.address,p.highlight].join(" ")); if (!words.every(w => hay.includes(w))) continue; }
+    if (p.price_max < s.pmin || p.price_min > s.pmax) continue;
+    if (s.cat && p.category !== s.cat) continue;
+    if (p.rating < s.rating) continue;
+    const [d, ref] = distanceInfo(p, s.near);
+    if (d > s.radius) continue;
+    out.push({...p, distance_km: Math.round(d*100)/100, distance_from: ref, _s: p.rating*Math.log10(p.reviews+10) - 0.35*d});
+  }
+  const keys = {"gan-nhat":(a,b)=>a.distance_km-b.distance_km, "re-nhat":(a,b)=>a.price_min-b.price_min||a.price_max-b.price_max,
+    "rating":(a,b)=>b.rating-a.rating||b.reviews-a.reviews, "goi-y":(a,b)=>b._s-a._s};
+  return out.sort(keys[s.sort] || keys["goi-y"]);
+}
+
+async function search(s){
+  if (!API_MODE) return localSearch(s);
+  const params = new URLSearchParams({q:s.q, near:s.near, radius:s.radius, min:s.pmin, max:s.pmax, rating:s.rating, sort:s.sort, cat:s.cat});
+  if (s.near === "me" && me){ params.set("lat", me.lat); params.set("lng", me.lng); }
+  try { const r = await fetch("/api/search?" + params); return (await r.json()).results; }
+  catch (e) { return localSearch(s); }
+}
+
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt = n => n.toLocaleString("vi-VN");
+function card(p){
+  const l = (p.price_min-FLOOR)/(CEIL-FLOOR)*100, w = Math.max(4,(p.price_max-p.price_min)/(CEIL-FLOOR)*100);
+  const km = p.distance_km < 1 ? Math.round(p.distance_km*1000) + " m" : p.distance_km.toFixed(1).replace(".",",") + " km";
+  return `<article class="card">
+    <div class="top"><span class="cat">${esc(p.category)}</span><span class="rate"><i>★</i> ${p.rating.toFixed(1)} <small>(${fmt(p.reviews)})</small></span></div>
+    <h3>${esc(p.name)}</h3>
+    <p class="meta">${esc(p.type)} · ${esc(p.address)}</p>
+    <div class="price"><b>${p.price_min}–${p.price_max}k <small>/người</small></b><div class="ruler" title="Vị trí trên thang 30k–200k"><span style="left:${l}%;width:${w}%"></span></div></div>
+    <span class="dist ${p.distance_km<=1?"near":""}">${km} · ${esc(p.distance_from)}</span>
+    <p class="hl">${esc(p.highlight)}</p>
+    ${p.note ? `<p class="note">Lưu ý: ${esc(p.note)}</p>` : ""}
+    <div class="foot"><span>🕒 ${esc(p.hours)}${p.phone ? ` · <span class="ph">${esc(p.phone)}</span>` : ""}</span>
+      <a href="${esc(p.maps)}" target="_blank" rel="noopener">Chỉ đường ↗</a></div>
+  </article>`;
+}
+
+function syncControls(){
+  $("#q").value = state.q;
+  document.querySelectorAll("#near button").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === state.near));
+  $("#radius").value = state.radius; $("#radiusOut").textContent = String(state.radius).replace(".",",") + " km";
+  $("#pmin").value = state.pmin; $("#pmax").value = state.pmax; $("#priceOut").textContent = `${state.pmin}k – ${state.pmax}k`;
+  $("#rating").value = state.rating; $("#sort").value = state.sort;
+  document.querySelectorAll("#cats .chip").forEach(c => c.setAttribute("aria-pressed", c.dataset.v === state.cat));
+}
+
+let ticket = 0;
+async function render(){
+  syncControls(); save();
+  const t = ++ticket; const res = await search(state); if (t !== ticket) return;
+  lastResults = res;
+  $("#count").textContent = res.length ? `${res.length} quán phù hợp` : "Không có quán nào khớp";
+  $("#grid").innerHTML = res.length ? res.map(card).join("") :
+    `<div class="empty">Thử nới khoảng giá, tăng bán kính hoặc bỏ bớt chữ trong ô tìm kiếm.</div>`;
+}
+
+$("#cats").innerHTML = `<button type="button" class="chip" data-v="">Tất cả<small>${DATA.places.length}</small></button>` +
+  CATS.map(c => `<button type="button" class="chip" data-v="${esc(c)}">${esc(c)}<small>${DATA.places.filter(p=>p.category===c).length}</small></button>`).join("");
+$("#cats").addEventListener("click", e => { const b = e.target.closest(".chip"); if (!b) return; state.cat = b.dataset.v; render(); });
+
+let qTimer; $("#q").addEventListener("input", e => { clearTimeout(qTimer); qTimer = setTimeout(() => { state.q = e.target.value; render(); }, 180); });
+$("#radius").addEventListener("input", e => { state.radius = +e.target.value; render(); });
+$("#pmin").addEventListener("input", e => { state.pmin = +e.target.value; if (state.pmin > state.pmax) state.pmax = state.pmin; render(); });
+$("#pmax").addEventListener("input", e => { state.pmax = +e.target.value; if (state.pmax < state.pmin) state.pmin = state.pmax; render(); });
+$("#rating").addEventListener("change", e => { state.rating = +e.target.value; render(); });
+$("#sort").addEventListener("change", e => { state.sort = e.target.value; render(); });
+$("#reset").addEventListener("click", () => { state = {...defaults}; $("#pick").hidden = true; render(); });
+
+$("#near").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.v !== "me"){ state.near = b.dataset.v; $("#geoMsg").hidden = true; render(); return; }
+  const msg = $("#geoMsg"); msg.hidden = false; msg.textContent = "Đang lấy vị trí…";
+  navigator.geolocation.getCurrentPosition(
+    pos => { me = {lat: pos.coords.latitude, lng: pos.coords.longitude}; state.near = "me"; msg.hidden = true; render(); },
+    () => { msg.textContent = "Không lấy được vị trí. Hãy cho phép quyền vị trí (cần mở trang bằng https hoặc localhost)."; },
+    {enableHighAccuracy: true, timeout: 10000});
+});
+if ((API_MODE || GEO) && "geolocation" in navigator) $("#meBtn").hidden = false;
+
+function showPick(){
+  if (!lastResults.length){ $("#pick").hidden = false; $("#pickCard").innerHTML = `<div class="empty">Chưa có quán nào khớp bộ lọc để chọn.</div>`; return; }
+  const top = lastResults.slice(0, Math.max(5, Math.ceil(lastResults.length/2)));
+  const p = top[Math.floor(Math.random()*top.length)];
+  $("#pickCard").innerHTML = card(p); $("#pick").hidden = false;
+  $("#pick").scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "nearest"});
+}
+$("#randomBtn").addEventListener("click", showPick);
+$("#closePick").addEventListener("click", () => { $("#pick").hidden = true; });
+
+$("#foot").textContent = `Dữ liệu cập nhật ${DATA.updated.split("-").reverse().join("/")} · ${DATA.source}. Khoảng cách tính theo đường chim bay; đường đi thực tế thường xa hơn 20–40%.`;
+render();
+</script>
+</body></html>
